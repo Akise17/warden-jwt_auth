@@ -26,7 +26,8 @@ module Warden
 
         def headers_with_token(env, headers)
           token = env[Hooks::PREPARED_TOKEN_ENV_KEY]
-          token ? HeaderParser.to_headers(headers, token) : headers
+          expired = env[Hooks::PREPARED_TOKEN_ENV_KEY_EXPIRED]
+          token ? HeaderParser.to_headers(headers, token, expired) : headers
         end
       end
     end

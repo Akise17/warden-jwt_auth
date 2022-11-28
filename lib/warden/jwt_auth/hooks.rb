@@ -8,6 +8,7 @@ module Warden
 
       # `env` key where JWT is added
       PREPARED_TOKEN_ENV_KEY = 'warden-jwt_auth.token'
+      PREPARED_TOKEN_ENV_KEY_EXPIRED = 'warden-jwt_auth.token.expired'
 
       # Adds a token for the signed in user to the request `env` if current path
       # and verb match with configuration. This will be picked up later on by a
@@ -39,6 +40,7 @@ module Warden
         token, payload = UserEncoder.new.call(user, scope, aud)
         user.on_jwt_dispatch(token, payload) if user.respond_to?(:on_jwt_dispatch)
         env[PREPARED_TOKEN_ENV_KEY] = token
+        env[PREPARED_TOKEN_ENV_KEY_EXPIRED] = payload['exp']
       end
 
       def jwt_scope?(scope)

@@ -37,9 +37,11 @@ module Warden
       # @param headers [Hash] rack hash response headers
       # @param token [String] JWT token
       # @return [Hash] response headers with the token added
-      def self.to_headers(headers, token)
+      def self.to_headers(headers, token, expired)
         headers = headers.dup
+        expired = Time.at(expired.to_i)
         headers['Authorization'] = "#{METHOD} #{token}"
+        headers['Expired-At'] = expired.to_formatted_s(:db)
         headers
       end
     end
