@@ -41,7 +41,7 @@ module Warden
         headers = headers.dup
         expired = Time.at(expired.to_i)
         headers['Authorization'] = "#{METHOD} #{token}"
-        headers['Expired-At'] = expired.to_formatted_s(:db)
+        headers['Expired-At'] = expired.iso8601
         headers
       end
     end
